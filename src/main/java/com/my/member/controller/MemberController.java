@@ -7,21 +7,49 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
 
-
 @Controller
 public class MemberController {
-    //서비스를 가져와서 실행시킬 준비를 해야함
-    //1@autowired 사용
+    // 서비스를 가져와서 실행 준비
+    // 1. @Autowired 사용
     @Autowired
     MemberService service;
+
     @GetMapping("/list")
     public String showList(Model model) {
-        model.addAttribute("title","리스트보기");
+        model.addAttribute("title", "리스트보기");
+        // 서비스에 멤버리스트 정보 요청
         List<MemberDto> memberList = service.getAllList();
         model.addAttribute("list", memberList);
         return "showMember";
+    }
+
+    @GetMapping("/member/insertForm")
+    public String insertFormView() {
+        return "insertForm";
+    }
+
+    @PostMapping("/member/insert")
+    public String insert(MemberDto dto) {
+        // 1. 폼에서 보낸 정보를 DTO로 받는다.
+        System.out.println(dto);
+        // 2. 받은 DTO를 서비스로 보낸다.
+        service.insertMember(dto);
+        // 3. 서비스에서 DTO를 엔티티로 바꾼다.
+        // 4. 리포지토리를 이용해서 저장한다.
+        // 5. 메인 리스트화면으로 돌아간다.
+        return "redirect:/list";
+    }
+
+    @PostMapping("/member/delete/{id}")
+    public String deleteMember(@PathVariable("id")Long id){
+        service.deleteMember(id);
+
+        return "redirect:/list";
+
     }
 }
