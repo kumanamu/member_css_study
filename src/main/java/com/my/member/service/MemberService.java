@@ -4,6 +4,7 @@ import com.my.member.dto.MemberDto;
 import com.my.member.entity.Member;
 import com.my.member.repository.MemberRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,9 +38,9 @@ public class MemberService {
 //
 //        }
         //fromMemberEntity 매서드로 작업하기
-        return  memberList
+        return memberList
                 .stream()
-                .map(x-> MemberDto.fromMemberEntity(x))
+                .map(x -> MemberDto.fromMemberEntity(x))
                 .toList();
 //        return dtoList;
     }
@@ -53,15 +54,38 @@ public class MemberService {
         //우리가 만든 toDto를 이용해서 멤버 엔티티 생성하기
         Member member = MemberDto.toDto(dto);
         //리포지토리를 이용해서 저장한다
-        member=repository.save(member);
+        member = repository.save(member);
         System.out.println("================");
         System.out.println(member);
 
     }
 
     public void deleteMember(Long id) {
-    //삭제처리
+        //삭제처리
         repository.deleteById(id);
 
+    }
+
+    public MemberDto findMember(Long updateId) {
+        //검색해보기
+        //비어있는지 검사
+        //없으면 null 리턴
+        Member member = repository.findById(updateId).orElse(null);
+        //멤버가 null인지 확인
+        if (ObjectUtils.isEmpty(member)) {
+            return null;
+        } else {
+            return MemberDto.fromMemberEntity(member);
+
+    }
+}
+
+    public void updateMember(MemberDto dto) {
+
+        //1.받은 dto 엔티티로 바꿔주기
+        Member member = MemberDto.toDto(dto);
+
+        //2. 수정 요청
+        repository.save(member);
     }
 }
