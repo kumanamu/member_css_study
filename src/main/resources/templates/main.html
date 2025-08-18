@@ -5,14 +5,21 @@
     <title>Title</title>
 </head>
 <body>
-<ul>
-  <li><a th:href="@{/user/login}">로그인</a></li>
-  <li><a th:href="@{/user/signup}">회원가입</a></li>
-  <li><a th:href="@{/user/logout}">로그아웃</a></li>
-  <li><a th:href="@{/user/update}">내 정보 수정</a></li>
-    <li><a th:href="@{/user/list}">사용자 정보 보기</a></li>
-  <li><a th:href="@{list}">멤버리스트보기</a></li>
+<div th:if="${session.loginEmail} == null">
+    session 값 확인 : <span>[[${session.loginEmail}]]</span>
 
+</div>
+<ul>
+    <div th:if="${session.loginEmail} == null">
+        <li><a th:href="@{/user/login}">로그인</a></li>
+        <li><a th:href="@{/user/signup}">회원가입</a></li>
+    </div>
+    <div th:if="${session.loginEmail} != null">
+        <li><a th:href="@{/user/logout}">로그아웃</a></li>
+        <li><a th:href="@{/user/update}">내 정보 수정</a></li>
+        <li><a th:href="@{/user/list}">사용자 정보 보기</a></li>
+        <li><a th:href="@{list}">멤버리스트보기</a></li>
+    </div>
 
 
 </ul>
