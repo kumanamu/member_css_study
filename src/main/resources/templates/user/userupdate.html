@@ -1,42 +1,28 @@
 <!DOCTYPE html>
 <html xmlns:th="www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+  <meta charset="UTF-8">
+  <title>Title</title>
 </head>
 <body>
-<form th:action="@{/users/update}" th:object="${userDto}" method="post">
-  <input type="hidden" th:field="*{id}"/>
-  이메일: <input type="text" th:field="*{email}"/> <br>
-  비밀번호: <input type="password" th:field="*{password}"/> <br>
-  닉네임: <input type="text" th:field="*{nickname}"/> <br>
-  <button type="submit">수정하기</button>
-</form>
-
-<form >
+<form th:action="@{/user/updateUser}" method="post" th:object="${user}">
   <div>
-  <label for="email">이메일</label>
-  <input type="email" id="email" name="email" disabled>
-    </div>
-  <div>
-    <label for="password">암호</label>
-    <input type="password" id="password" name="password">
+    <label for="email">이메일</label>
+    <input type="email" id="email" name="email" disabled th:field="*{email}">
+    <input type="hidden" th:field="*{email}">
   </div>
   <div>
-    <label for="password2">암호 확인</label>
-    <input type="password" id="password2" name="password2">
+    <label for="password">비밀번호</label>
+    <input type="text" id="password" name="password" disabled th:field="*{password}" >
+    <input type="hidden" th:field="*{password}">
   </div>
-
   <div>
-    <label for="nickname">암호</label>
-    <input type="text" id="nickname" name="nickname">
+    <label for="nickname">닉네임</label>
+    <input type="text" id="nickname" name="nickname" th:field="*{nickname}">
   </div>
   <br>
   <input type="submit" value="회원정보 수정">
-
-
 </form>
 <a th:href="@{/}">메인화면</a>
-
 </body>
 </html>
